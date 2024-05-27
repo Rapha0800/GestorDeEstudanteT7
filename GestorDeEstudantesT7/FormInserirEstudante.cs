@@ -41,7 +41,7 @@ namespace GestorDeEstudantesT7
                (textBoxSobrenome.Text.Trim() == "") ||
                (textBoxTelefone.Text.Trim() == "") ||
                (textBoxEndereco.Text.Trim() == "") ||
-               (textBoxFoto.Image == null))
+               (pictureBoxFoto.Image == null))
             {
                 return false;            
             }
@@ -80,6 +80,18 @@ namespace GestorDeEstudantesT7
                 "Ano de nascimento Inválido",
                  MessageBoxButtons.OK,
                  MessageBoxIcon.Error);
+            }
+            else if (Verificar())
+            {
+                pictureBoxFoto.Image.Save(foto, pictureBoxFoto.Image.RawFormat);
+                if (estudante.inserirEstudante(nome, sobrenome, nascimento, telefone, genero, enfereco, foto)) 
+                {
+                    MessageBox.Show("Novo aluno cadastrado!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);                   
+                }
+                else 
+                {
+                    MessageBox.Show("Aluno não cadastrado!", "Erro!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
         }
     }

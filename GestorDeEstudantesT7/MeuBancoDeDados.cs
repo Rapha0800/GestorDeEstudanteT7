@@ -58,7 +58,7 @@ namespace GestorDeEstudantesT7
             comando.Parameters.Add("@genero", MySqlDbType.VarChar).Value = genero;
             comando.Parameters.Add("@telefone", MySqlDbType.VarChar).Value = telefone;
             comando.Parameters.Add("@endereco", MySqlDbType.VarChar).Value = endereco;
-            comando.Parameters.Add("@foto", MySqlDbType.VarChar).Value = foto;
+            comando.Parameters.Add("@foto", MySqlDbType.VarChar).Value = foto.ToArray();
 
             MeuBancoDeDados.abrirConexao();
 
@@ -73,7 +73,20 @@ namespace GestorDeEstudantesT7
                 return false;
             }
         }
+        
+        //RETORNA A TABELA DPS ESTUDANTES QUE ESTAO NO BANCO DE DADOS
+        public DataTable getEstudantes(MySqlCommand comando) 
+        {
+            comando.Connection = MeuBancoDeDados.getConexao;
+
+            MySqlDataAdapter adaptador = new MySqlDataAdapter(comando);
+            DataTable tabelaDeDados = new DataTable();
+            adaptador.Fill(tabelaDeDados);
+
+            return tabelaDeDados;
+        }
     }
+
 
 
 

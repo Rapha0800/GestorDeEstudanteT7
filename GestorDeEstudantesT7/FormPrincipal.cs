@@ -24,7 +24,8 @@ namespace GestorDeEstudantesT7
 
         private void listaDeEstudantToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            FormListarEstudantes formListarEstudantes = new FormListarEstudantes();
+            formListarEstudantes.Show(this);
         }
 
         private void novoEstudanteToolStripMenuItem_Click(object sender, EventArgs e)
