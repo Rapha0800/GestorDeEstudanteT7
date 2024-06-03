@@ -102,7 +102,7 @@
             this.dateTimePickerNascimento.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerNascimento.Location = new System.Drawing.Point(131, 77);
             this.dateTimePickerNascimento.Name = "dateTimePickerNascimento";
-            this.dateTimePickerNascimento.Size = new System.Drawing.Size(158, 20);
+            this.dateTimePickerNascimento.Size = new System.Drawing.Size(87, 20);
             this.dateTimePickerNascimento.TabIndex = 7;
             // 
             // label4
@@ -187,7 +187,7 @@
             this.pictureBoxFoto.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxFoto.Image")));
             this.pictureBoxFoto.Location = new System.Drawing.Point(131, 257);
             this.pictureBoxFoto.Name = "pictureBoxFoto";
-            this.pictureBoxFoto.Size = new System.Drawing.Size(158, 143);
+            this.pictureBoxFoto.Size = new System.Drawing.Size(158, 158);
             this.pictureBoxFoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxFoto.TabIndex = 14;
             this.pictureBoxFoto.TabStop = false;
@@ -205,7 +205,7 @@
             // buttonEnviarFoto
             // 
             this.buttonEnviarFoto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonEnviarFoto.Location = new System.Drawing.Point(131, 406);
+            this.buttonEnviarFoto.Location = new System.Drawing.Point(131, 420);
             this.buttonEnviarFoto.Name = "buttonEnviarFoto";
             this.buttonEnviarFoto.Size = new System.Drawing.Size(158, 41);
             this.buttonEnviarFoto.TabIndex = 16;

@@ -17,26 +17,26 @@ namespace GestorDeEstudantesT7
         {
             InitializeComponent();
         }
+
         Estudante estudante = new Estudante();
 
         private void FormListarEstudantes_Load(object sender, EventArgs e)
         {
-            // Preenche o dataGridView co mas informações dos estudantes.
+            // Preenche o dataGridView com as informações dos estudantes.
             MySqlCommand comando = new MySqlCommand("SELECT * FROM `estudantes`");
-            //impede que os dados exibidosna tabela sejam alteradas
+            // Impede que os dados exibidos na tabela sejam alterados.
             dataGridViewListaDeAlunos.ReadOnly = true;
-            //cria uma coluna para exibir as fotos dos alunos
+            // Cria uma coluna para exibir as fotos dos alunos.
             DataGridViewImageColumn colunaDeFotos = new DataGridViewImageColumn();
-            // determina uma altura padrao para as linhas da tabela.
+            // Determina uma altura padrão para as linhas da tabela.
             dataGridViewListaDeAlunos.RowTemplate.Height = 80;
-            //determina a origem dos dados da tabela
+            // Determina a origem dos dados da tabela.
             dataGridViewListaDeAlunos.DataSource = estudante.getEstudantes(comando);
-            //determinar qual SERA a coluna com as imagens.
-            colunaDeFotos = (DataGridViewImageColumn)dataGridViewListaDeAlunos.Columns[7];
+            // Determinar qual SERÁ a coluna com as imagens.
+            colunaDeFotos = (DataGridViewImageColumn) dataGridViewListaDeAlunos.Columns[7];
             colunaDeFotos.ImageLayout = DataGridViewImageCellLayout.Stretch;
             // Impede o usuário de incluir linhas.
             dataGridViewListaDeAlunos.AllowUserToAddRows = false;
-           
         }
     }
 }

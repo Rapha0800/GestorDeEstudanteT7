@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mysqlx;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,9 +26,10 @@ namespace GestorDeEstudantesT7
 
         private void buttonEnviarFoto_Click(object sender, EventArgs e)
         {
+            // Abre janela para pesquisar a imagem no computador.
             OpenFileDialog procurarFoto = new OpenFileDialog();
 
-            procurarFoto.Filter = "Selecione a foto (*.jpg;*.png;*.jpeg;*.gif| *.jpg; *.png; *.jpeg; *.gif";
+            procurarFoto.Filter = "Selecione a foto (*.jpg;*.png;*.jpeg;*.gif)|*.jpg;*.png;*.jpeg;*.gif";
 
             if(procurarFoto.ShowDialog() == DialogResult.OK)
             {
@@ -37,19 +39,18 @@ namespace GestorDeEstudantesT7
 
         bool Verificar()
         {
-            if((textBoxNome.Text.Trim() == "") ||
+            if((textBoxNome.Text.Trim() == "") || 
                (textBoxSobrenome.Text.Trim() == "") ||
                (textBoxTelefone.Text.Trim() == "") ||
                (textBoxEndereco.Text.Trim() == "") ||
                (pictureBoxFoto.Image == null))
             {
-                return false;            
+                return false;
             }
             else
             {
                 return true;
             }
-
         }
 
         private void buttonCadastrar_Click(object sender, EventArgs e)
@@ -60,8 +61,8 @@ namespace GestorDeEstudantesT7
             string sobrenome = textBoxSobrenome.Text;
             DateTime nascimento = dateTimePickerNascimento.Value;
             string telefone = textBoxTelefone.Text;
-            string enfereco = textBoxEndereco.Text;
-            string genero = "feinino";
+            string endereco = textBoxEndereco.Text;
+            string genero = "Feminino";
 
             if (radioButtonMasculino.Checked == true)
             {
@@ -70,28 +71,38 @@ namespace GestorDeEstudantesT7
 
             MemoryStream foto = new MemoryStream();
 
-            //Verificar se o aluno tem entre 10 e 100 anos
+            // Verificar se o aluno tem entre 10 e 100 anos.
             int anoDeNascimento = dateTimePickerNascimento.Value.Year;
             int anoAtual = DateTime.Now.Year;
 
             if ((anoAtual - anoDeNascimento) < 10 || (anoAtual - anoDeNascimento) > 100)
             {
-                MessageBox.Show("O Aluno precisa ter entre 10 e 100 anos",
-                "Ano de nascimento Inválido",
-                 MessageBoxButtons.OK,
-                 MessageBoxIcon.Error);
+                MessageBox.Show("O aluno precisa ter entre 10 e 100 anos.",
+                    "Ano de nascimento inválido",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
             else if (Verificar())
             {
                 pictureBoxFoto.Image.Save(foto, pictureBoxFoto.Image.RawFormat);
-                if (estudante.inserirEstudante(nome, sobrenome, nascimento, telefone, genero, enfereco, foto)) 
+
+                if (estudante.inserirEstudante(nome, sobrenome, nascimento, telefone, 
+                    genero, endereco, foto))
                 {
-                    MessageBox.Show("Novo aluno cadastrado!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);                   
+                    MessageBox.Show("Novo aluno cadastrado!", "Sucesso!", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else 
+                else
                 {
-                    MessageBox.Show("Aluno não cadastrado!", "Erro!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Aluno não cadastrado!", "Erro!", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
                 }
+            }
+            else
+            {
+                MessageBox.Show("Existem campos não preenchidos!", "Campos não preenchidos",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
