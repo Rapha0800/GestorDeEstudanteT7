@@ -41,6 +41,7 @@
             this.dataGridViewListaDeAlunos.Name = "dataGridViewListaDeAlunos";
             this.dataGridViewListaDeAlunos.Size = new System.Drawing.Size(776, 359);
             this.dataGridViewListaDeAlunos.TabIndex = 0;
+            this.dataGridViewListaDeAlunos.DoubleClick += new System.EventHandler(this.dataGridViewListaDeAlunos_DoubleClick);
             // 
             // buttonAtualizar
             // 
@@ -51,6 +52,7 @@
             this.buttonAtualizar.TabIndex = 19;
             this.buttonAtualizar.Text = "Atualizar";
             this.buttonAtualizar.UseVisualStyleBackColor = true;
+            this.buttonAtualizar.Click += new System.EventHandler(this.buttonAtualizar_Click);
             // 
             // FormListarEstudantes
             // 

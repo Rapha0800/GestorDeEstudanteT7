@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GestorDeEstudantesT7
 {
@@ -13,7 +15,7 @@ namespace GestorDeEstudantesT7
     {
         MeuBancoDeDados meuBancoDeDados = new MeuBancoDeDados();
 
-        public bool inserirEstudante(string nome, string sobrenome, DateTime nascimento, 
+        public bool inserirEstudante(string nome, string sobrenome, DateTime nascimento,
             string telefone, string genero, string endereco, MemoryStream foto)
         {
             // Removido `id` da lista de parâmetros a serem alterados.
@@ -30,7 +32,7 @@ namespace GestorDeEstudantesT7
 
             meuBancoDeDados.abrirConexao();
 
-            if(comando.ExecuteNonQuery() == 1)
+            if (comando.ExecuteNonQuery() == 1)
             {
                 meuBancoDeDados.fecharConexao();
                 return true;
@@ -52,6 +54,28 @@ namespace GestorDeEstudantesT7
             adaptador.Fill(tabelaDeDados);
 
             return tabelaDeDados;
+        }
+
+
+        // apaga um estudante com base em sei ID
+        public bool apagarEstudante(int id)
+        {
+            MySqlCommand comando = new MySqlCommand("DELETE FROM `estudantes` WHERE `id` = @id");
+
+            comando.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
+
+            meuBancoDeDados.abrirConexao();
+
+            if (comando.ExecuteNonQuery() == 1) 
+            {
+                meuBancoDeDados.fecharConexao();
+                return true;
+            }
+            else
+            {
+                meuBancoDeDados.fecharConexao();
+                return false;
+            }
         }
     }
 }
