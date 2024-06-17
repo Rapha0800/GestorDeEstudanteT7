@@ -46,7 +46,7 @@
             this.radioButtonMasculino = new System.Windows.Forms.RadioButton();
             this.GENERO2 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBoxid = new System.Windows.Forms.TextBox();
+            this.textBoxID = new System.Windows.Forms.TextBox();
             this.buttonBuscar = new System.Windows.Forms.Button();
             this.buttonSalvar = new System.Windows.Forms.Button();
             this.buttonApagar = new System.Windows.Forms.Button();
@@ -215,12 +215,12 @@
             this.label8.TabIndex = 31;
             this.label8.Text = "id";
             // 
-            // textBoxid
+            // textBoxID
             // 
-            this.textBoxid.Location = new System.Drawing.Point(109, 44);
-            this.textBoxid.Name = "textBoxid";
-            this.textBoxid.Size = new System.Drawing.Size(100, 20);
-            this.textBoxid.TabIndex = 30;
+            this.textBoxID.Location = new System.Drawing.Point(109, 44);
+            this.textBoxID.Name = "textBoxID";
+            this.textBoxID.Size = new System.Drawing.Size(100, 20);
+            this.textBoxID.TabIndex = 30;
             // 
             // buttonBuscar
             // 
@@ -273,7 +273,7 @@
             this.Controls.Add(this.buttonSalvar);
             this.Controls.Add(this.buttonBuscar);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.textBoxid);
+            this.Controls.Add(this.textBoxID);
             this.Controls.Add(this.FOTO2);
             this.Controls.Add(this.pictureBoxFoto);
             this.Controls.Add(this.ENDERECO2);
@@ -319,7 +319,7 @@
         internal System.Windows.Forms.TextBox textBoxTelefone;
         internal System.Windows.Forms.GroupBox groupBox1;
         internal System.Windows.Forms.RadioButton radioButtonFeminino;
-        internal System.Windows.Forms.TextBox textBoxid;
+        internal System.Windows.Forms.TextBox textBoxID;
         internal System.Windows.Forms.RadioButton radioButtonMasculino;
     }
 }
