@@ -36,7 +36,8 @@ namespace GestorDeEstudantesT7
 
         private void estatísticasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            FormEstatisticas formEstatisticas = new FormEstatisticas();
+            formEstatisticas.Show(this);
         }
 
         private void editarRemoverToolStripMenuItem_Click(object sender, EventArgs e)
