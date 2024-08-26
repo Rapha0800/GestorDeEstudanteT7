@@ -6,7 +6,6 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -39,55 +38,62 @@ namespace GestorDeEstudantesT7
 
         private void buttonSalvar_Click(object sender, EventArgs e)
         {
-            // Esta linha só existe em "buttonSalvar_Click(...)"
-            int id = Convert.ToInt32(textBoxID.Text);
-
-            string nome = textBoxNome.Text;
-            string sobrenome = textBoxSobrenome.Text;
-            DateTime nascimento = dateTimePickerNascimento.Value;
-            string telefone = textBoxTelefone.Text;
-            string endereco = textBoxEndereco.Text;
-            string genero = "Feminino";
-
-            if (radioButtonMasculino.Checked == true)
+            try
             {
-                genero = "Masculino";
-            }
+                // Esta linha só existe em "buttonSalvar_Click(...)"
+                int id = Convert.ToInt32(textBoxID.Text);
 
-            MemoryStream foto = new MemoryStream();
+                string nome = textBoxNome.Text;
+                string sobrenome = textBoxSobrenome.Text;
+                DateTime nascimento = dateTimePickerNascimento.Value;
+                string telefone = textBoxTelefone.Text;
+                string endereco = textBoxEndereco.Text;
+                string genero = "Feminino";
 
-            // Verificar se o aluno tem entre 10 e 100 anos.
-            int anoDeNascimento = dateTimePickerNascimento.Value.Year;
-            int anoAtual = DateTime.Now.Year;
-
-            if ((anoAtual - anoDeNascimento) < 10 || (anoAtual - anoDeNascimento) > 100)
-            {
-                MessageBox.Show("O aluno precisa ter entre 10 e 100 anos.",
-                    "Ano de nascimento inválido",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            else if (Verificar())
-            {
-                pictureBoxFoto.Image.Save(foto, pictureBoxFoto.Image.RawFormat);
-
-                if (estudante.atualizarEstudantes(id, nome, sobrenome, nascimento, telefone,
-                    genero, endereco, foto))
+                if (radioButtonMasculino.Checked == true)
                 {
-                    MessageBox.Show("Dados salvos!", "Sucesso!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    genero = "Masculino";
+                }
+
+                MemoryStream foto = new MemoryStream();
+
+                // Verificar se o aluno tem entre 10 e 100 anos.
+                int anoDeNascimento = dateTimePickerNascimento.Value.Year;
+                int anoAtual = DateTime.Now.Year;
+
+                if ((anoAtual - anoDeNascimento) < 10 || (anoAtual - anoDeNascimento) > 100)
+                {
+                    MessageBox.Show("O aluno precisa ter entre 10 e 100 anos.",
+                        "Ano de nascimento inválido",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+                else if (Verificar())
+                {
+                    pictureBoxFoto.Image.Save(foto, pictureBoxFoto.Image.RawFormat);
+
+                    if (estudante.atualizarEstudantes(id, nome, sobrenome, nascimento, telefone,
+                        genero, endereco, foto))
+                    {
+                        MessageBox.Show("Dados salvos!", "Sucesso!",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Não foi possível salvar!", "Erro!",
+                            MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Não foi possível salvar!", "Erro!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
+                    MessageBox.Show("Existem campos não preenchidos!", "Campos não preenchidos",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else
+            catch
             {
-                MessageBox.Show("Existem campos não preenchidos!", "Campos não preenchidos",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ocorreu um erro.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -111,6 +117,7 @@ namespace GestorDeEstudantesT7
         {
             try
             {
+                // Referência a ID do aluno.
                 int idDoAluno = Convert.ToInt32(textBoxID.Text);
 
                 // Mostrar uma caixa de diálogo perguntando se o usuário
@@ -143,10 +150,8 @@ namespace GestorDeEstudantesT7
             }
             catch
             {
-                MessageBox.Show("Ocorreu um Erro.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ocorreu um erro.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            // Referência a ID do aluno.
         }
 
         // Variável global do tipo MeuBancoDeDados...
@@ -154,8 +159,8 @@ namespace GestorDeEstudantesT7
 
         private void buttonBuscar_Click(object sender, EventArgs e)
         {
-            try
-            {
+           try
+           {
                 // Converte o ID da caixa de texto para número inteiro.
                 int idDoAluno = Convert.ToInt32(textBoxID.Text);
 
@@ -188,8 +193,7 @@ namespace GestorDeEstudantesT7
                     MemoryStream fotoStream = new MemoryStream(foto);
                     pictureBoxFoto.Image = Image.FromStream(fotoStream);
                 }
-            }
-            catch // Exibe uma mensagem de erro caso o usuário não digite a ID.
+            } catch // Exibe uma mensagem de erro caso o usuário não digite a ID.
             {
                 MessageBox.Show("Digite uma ID válida!", "ID Inválida", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }

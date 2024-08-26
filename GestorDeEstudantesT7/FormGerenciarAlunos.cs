@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,20 +20,17 @@ namespace GestorDeEstudantesT7
             InitializeComponent();
         }
 
-
         Estudante estudante = new Estudante();
 
         private void FormGerenciarAlunos_Load(object sender, EventArgs e)
         {
-            //preenche a tabela com os alunos do banco de dados.
+            // Preenche a tabela com os alunos do banco de dados.
             preencheTabela(new MySqlCommand("SELECT * FROM `estudantes`"));
-            
         }
 
-        //metodo que preenche a tabela com os alunos do banco de dados.
-        public void preencheTabela(MySqlCommand comando)
+        // Metódo que preenche a tabela com os alunos do banco de dados.
+        public void preencheTabela(MySqlCommand comando) 
         {
-
             // Impede que os dados exibidos na tabela sejam alterados.
             dataGridViewListaDeAlunos.ReadOnly = true;
             // Cria uma coluna para exibir as fotos dos alunos.
@@ -47,51 +45,86 @@ namespace GestorDeEstudantesT7
             // Impede o usuário de incluir linhas.
             dataGridViewListaDeAlunos.AllowUserToAddRows = false;
 
-            //mostrar o total de alunos
-            labelTotaldealunos.Text = "Total de Alunos: " + dataGridViewListaDeAlunos.Rows.Count;
-        }
-
-        private void buttonAtualizarGA_Click(object sender, EventArgs e)
-        {
-            
+            // Mostra o total de alunos
+            labelTotalDeAlunos.Text = "Total de Alunos: " + dataGridViewListaDeAlunos.Rows.Count;
         }
 
         private void dataGridViewListaDeAlunos_Click(object sender, EventArgs e)
         {
-            textBoxIDGA.Text = dataGridViewListaDeAlunos.CurrentRow.Cells[0].Value.ToString();
-            textBoxNomeGA.Text = dataGridViewListaDeAlunos.CurrentRow.Cells[1].Value.ToString();
-            textBoxSobrenomeGA.Text = dataGridViewListaDeAlunos.CurrentRow.Cells[2].Value.ToString();
+            textBoxID.Text = dataGridViewListaDeAlunos.CurrentRow.Cells[0].Value.ToString();
+            textBoxNome.Text = dataGridViewListaDeAlunos.CurrentRow.Cells[1].Value.ToString();
+            textBoxSobrenome.Text = dataGridViewListaDeAlunos.CurrentRow.Cells[2].Value.ToString();
 
-            dateTimePickerNascimentoGA.Value = (DateTime)dataGridViewListaDeAlunos.CurrentRow.Cells[3].Value;
+            dateTimePickerNascimento.Value = (DateTime)dataGridViewListaDeAlunos.CurrentRow.Cells[3].Value;
 
             if (dataGridViewListaDeAlunos.CurrentRow.Cells[4].Value.ToString() == "Feminino")
             {
-                radioButtonFemininoGA.Checked = true;
+                radioButtonFeminino.Checked = true;
             }
-            else 
+            else
             {
-                radioButtonMasculinoGA.Checked = true;
+                radioButtonMasculino.Checked = true;
             }
 
-            textBoxTelefoneGA.Text = dataGridViewListaDeAlunos.CurrentRow.Cells[5].Value.ToString();
-            textBoxEnderecoGA.Text = dataGridViewListaDeAlunos.CurrentRow.Cells[6].Value.ToString();
+            textBoxTelefone.Text = dataGridViewListaDeAlunos.CurrentRow.Cells[5].Value.ToString();
+            textBoxEndereco.Text = dataGridViewListaDeAlunos.CurrentRow.Cells[6].Value.ToString();
 
             byte[] imagem;
             imagem = (byte[])dataGridViewListaDeAlunos.CurrentRow.Cells[7].Value;
             MemoryStream fotoDoAluno = new MemoryStream(imagem);
-            pictureBoxFotoGA.Image = Image.FromStream(fotoDoAluno);
+            pictureBoxFoto.Image = Image.FromStream(fotoDoAluno);
         }
 
-        private void buttonRedefinirGA_Click(object sender, EventArgs e)
+        private void buttonRedefinir_Click(object sender, EventArgs e)
         {
-            textBoxIDGA.Text = "";
-            textBoxNomeGA.Text = "";
-            textBoxSobrenomeGA.Text = "";
-            textBoxEnderecoGA.Text = "";
-            textBoxTelefoneGA.Text = "";
-            radioButtonFemininoGA.Checked = true;
-            dateTimePickerNascimentoGA.Value = DateTime.Now;
-            pictureBoxFotoGA.Image = null;
+            textBoxID.Text = "";
+            textBoxNome.Text = "";
+            textBoxSobrenome.Text = "";
+            textBoxEndereco.Text = "";
+            textBoxTelefone.Text = "";
+            radioButtonFeminino.Checked = true;
+            dateTimePickerNascimento.Value = DateTime.Now;
+            pictureBoxFoto.Image = null;
+        }
+
+        private void buttonEnviarFoto_Click(object sender, EventArgs e)
+        {
+            // Abre janela para pesquisar a imagem no computador.
+            OpenFileDialog procurarFoto = new OpenFileDialog();
+
+            procurarFoto.Filter = "Selecione a foto (*.jpg;*.png;*.jpeg;*.gif)|*.jpg;*.png;*.jpeg;*.gif";
+
+            if (procurarFoto.ShowDialog() == DialogResult.OK)
+            {
+                pictureBoxFoto.Image = Image.FromFile(procurarFoto.FileName);
+            }
+        }
+
+        private void buttonBaixarFoto_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog salvarArquivo = new SaveFileDialog();
+            // Define o nome do arquivo que será salvo.
+            salvarArquivo.FileName = "Estudante_" + textBoxID.Text;
+
+            // Verifica se tem imagem na caixa de imagem.
+            if (pictureBoxFoto.Image == null)
+            {
+                MessageBox.Show("Não tem foto para baixar.");
+            }
+            else
+            {
+                salvarArquivo.ShowDialog();
+                pictureBoxFoto.Image.Save(salvarArquivo.FileName + ("." +
+                    ImageFormat.Jpeg.ToString()));
+            }
+        }
+
+        private void buttonBuscarDado_Click(object sender, EventArgs e)
+        {
+            string pesquisa = "SELECT * FROM `estudantes` WHERE CONCAT" +
+                "(`nome`,`sobrenome`,`endereco`) LIKE'%"+textBoxDado.Text+"%'";
+            MySqlCommand comando = new MySqlCommand(pesquisa);
+            preencheTabela(comando);
         }
     }
 }
